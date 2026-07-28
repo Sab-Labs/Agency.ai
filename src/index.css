@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+html {
+    scroll-behavior: smooth;
+}
+
+*{
+    font-family: "Manrope", sans-serif;
+    font-weight: 500;
+}
+
+@theme {
+    --color-primary: #5044E5;       
+}
+
+@media (hover: hover) and (pointer: fine) {
+    html, body, a, button, input, textarea, select, [role="button"], .cursor-pointer {
+        cursor: none !important;
+    }
+}
