@@ -1,6 +1,9 @@
 import Title from "./Title";
 import assets from "../assets/assets";
 import toast from "react-hot-toast";
+import { db } from "../firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { motion } from "motion/react";
 
 const Contact = () => {
   const onSubmit = async (event) => {
@@ -19,6 +22,18 @@ const Contact = () => {
       const data = await response.json();
 
       if (data.success) {
+        // Save to Firebase Firestore
+        const name = formData.get("name");
+        const email = formData.get("email");
+        const message = formData.get("message");
+
+        await addDoc(collection(db, "contacts"), {
+          name,
+          email,
+          message,
+          submittedAt: serverTimestamp(),
+        });
+
         toast.success("Thank you for your submission");
         event.target.reset();
       } else {
@@ -84,13 +99,16 @@ digital solutions that move your business forward."
             required
           />
         </div>
-        <button
+        <motion.button
           type="submit"
-          className="w-max flex gap-2 bg-primary text-white text-sm px-10 py-3 rounded-full cursor-pointer  hover:scale-103 transition-all "
+          className="w-max flex gap-2 bg-primary text-white text-sm px-10 py-3 rounded-full cursor-pointer"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.93, opacity: 0.85 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
           Submit
           <img src={assets.arrow_icon} />
-        </button>
+        </motion.button>
       </form>
     </div>
   );
